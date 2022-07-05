@@ -1,3 +1,4 @@
 # comp1110-ass1
 
-Assignment 1 (placeholder)
+Placeholder for student-facing assignment 1 repo; currently private.
+
