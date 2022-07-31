@@ -1,0 +1,123 @@
+image: cfourteen/comp1110-2022-s2-gitlab-ci:0.1.0
+
+stages:
+  - checksum
+  - compliance
+  - build
+  - test
+
+before_script:
+  - export PATH_TO_FX=/usr/share/openjfx/lib
+  - export JAVAFX_OPTIONS="--module-path $PATH_TO_FX"
+  - export CP=/ass1/comp1110-ass1-tests.jar:src:/shared/junit-platform-console-standalone-1.7.0.jar:$PATH_TO_FX/*
+  - export JUNIT="java $JAVAFX_OPTIONS -jar /shared/junit-platform-console-standalone-1.7.0.jar --class-path /ass1/comp1110-ass1-tests.jar:src --disable-banner"
+
+checksum:
+  tags:
+    - comp1110
+  stage: checksum
+  script:
+    - python3 /validate.py --integrity comp1110-ass1
+  except:
+    variables:
+      - $CI_PROJECT_NAME =~ /.*-dev$/
+
+admin:
+  tags:
+    - comp1110
+  stage: compliance
+  script:
+    - python3 /validate.py --schema https://cs.anu.edu.au/courses/comp1110/schemas/statement-of-originality.json ./originality.yml
+  except:
+    variables:
+      - $CI_PROJECT_NAME =~ /.*-dev$/
+
+build:
+  tags:
+    - comp1110
+  stage: build
+  script:
+    - javac -encoding utf-8 $JAVAFX_OPTIONS -cp $CP src/comp1110/ass1/*.java
+  artifacts:
+    paths:
+      - src/comp1110/ass1/*.class
+
+Task2:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.IsHexEmptyTest
+  allow_failure: true
+
+Task3:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.IsXEvenTest
+  allow_failure: true
+
+Task4:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.GetNeighboursTest
+  allow_failure: true
+
+Task5:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.NewChallengeTest
+  allow_failure: true
+
+Task6:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.IsSolutionTest
+  allow_failure: true
+
+Task7:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.IsIcePlacementValidTest
+  allow_failure: true
+
+Task8:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.PlaceRemoveIceBlockTest
+  allow_failure: true
+
+Task9:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.FixSymmetriesTest
+  allow_failure: true
+
+Task10:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.GetAllValidPlacementsTest
+  allow_failure: true
+
+Task11:
+  tags:
+    - comp1110
+  stage: test
+  script:
+    - $JUNIT -c=comp1110.ass1.FindSolutionTest
+  allow_failure: true

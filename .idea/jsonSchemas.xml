@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JsonSchemaMappingsProjectConfiguration">
+    <state>
+      <map>
+        <entry key="statement-of-originality">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="statement-of-originality" />
+              <option name="relativePathToSchema" value="https://cs.anu.edu.au/courses/comp1110/schemas/statement-of-originality.json" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="originality.yml" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
+      </map>
+    </state>
+  </component>
+</project>
