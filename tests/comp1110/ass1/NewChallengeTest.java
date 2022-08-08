@@ -34,7 +34,7 @@ public class NewChallengeTest {
             out[i] = Challenge.newChallenge(difficulty);
             assertNotNull(out[i], "The output of newChallenge() is null. Have you implemented this method yet?");
             int diff = getDifficulty(out[i]);
-            assertEquals(diff, difficulty, "Expected difficulty " + difficulty + ", but " + (diff == -1 ? "did not get one from the prepared objectives" : "got one of difficulty " + diff) + ": problem number " + out[i].getProblemNumber() + ".");
+            assertEquals(difficulty, diff, "Expected difficulty " + difficulty + ", but " + (diff == -1 ? "did not get one from the prepared objectives" : "got one of difficulty " + diff) + ": problem number " + out[i].getProblemNumber() + ".");
         }
         int unique = countChallenges(out);
         assertTrue(unique >= 3, "Expected at least 3 different objectives after calling newObjective() 12 times, but only got " + unique + ".");

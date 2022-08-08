@@ -213,6 +213,10 @@ public class Game extends Application {
 
         IceBlock(String placement) {
             this(placement.charAt(0));
+            this.x = placement.charAt(1) - '0';
+            this.y = placement.charAt(2) - '0';
+            this.rotation = placement.charAt(3) - '0';
+            this.updateRotation();
             this.snapToGrid();
         }
 
@@ -534,12 +538,12 @@ public class Game extends Application {
             this.makePenguins(challenge);
             String solution = this.penguinsPoolParty.findSolution();
             System.out.println(solution);
-            this.makeSolution(solution);
             for (Ice ice : penguinsPoolParty.getIceBlocks()) {
                 if (ice.isOnBoard()) penguinsPoolParty.removeIceBlock(ice);
                 ice.translate(penguinsPoolParty.getHex(0, 0));
                 while (ice.getRotation() != 0) ice.rotate60Degrees();
             }
+            this.makeSolution(solution);
         } catch (IllegalArgumentException e) {
             System.err.println("Uh oh. " + e);
             e.printStackTrace();
