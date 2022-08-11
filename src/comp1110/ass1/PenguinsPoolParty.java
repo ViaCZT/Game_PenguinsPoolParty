@@ -200,7 +200,32 @@ public class PenguinsPoolParty {
      */
     public Hex[] getNeighbours(Hex hex) {
         // FIXME: Task 4
-        return new Hex[6];
+        Hex[] myHex = new Hex[6];
+        //应该返回已经在棋盘上的Hex，而不是新建Hex。因为棋盘上的Hex还有type属性(EMPTY, ICE or PENGUIN)，而新建的无
+        //必须先判断Hex是否在盘上，否则 getHex()的时候会out of bounds，用myGetHex()来判断
+        if (hex.getX() % 2 != 0){
+            myHex[0] = myGetHex(hex.getX(), hex.getY()-1);
+            myHex[1] = myGetHex(hex.getX()+1, hex.getY()-1);
+            myHex[2] = myGetHex(hex.getX()+1, hex.getY());
+            myHex[3] = myGetHex(hex.getX(), hex.getY()+1);
+            myHex[4] = myGetHex(hex.getX()-1, hex.getY());
+            myHex[5] = myGetHex(hex.getX()-1, hex.getY()-1);
+        }else {
+            myHex[0] = myGetHex(hex.getX(), hex.getY()-1);
+            myHex[1] = myGetHex(hex.getX()+1, hex.getY());
+            myHex[2] = myGetHex(hex.getX()+1, hex.getY()+1);
+            myHex[3] = myGetHex(hex.getX(), hex.getY()+1);
+            myHex[4] = myGetHex(hex.getX()-1, hex.getY()+1);
+            myHex[5] = myGetHex(hex.getX()-1, hex.getY());
+        }
+        return myHex;
+    }
+    public Hex myGetHex(int x, int y) {
+        if (x<0 || x>4 || y<0 || y>3){
+            return null;
+        }else {
+            return getHex(x,y);
+        }
     }
 
     /**
