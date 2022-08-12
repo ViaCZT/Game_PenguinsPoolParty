@@ -164,7 +164,7 @@ public class Ice {
     }
 
     /**
-     * Rotate the ice block 60 degrees clockwise, and then translate it back to
+     * Rotate the ice block 60 degrees clockwise, and then translate(平移) it back to
      * its origin.
      */
     public void rotate60Degrees() {
@@ -201,6 +201,41 @@ public class Ice {
      */
     public void fixSymmetries() {
         // FIXME: Task 9
+        if (id == 'C' && rotation > 2){
+            switch (rotation){
+                case 3 -> {
+                    rotation = 0;
+                    if (originX % 2 == 0){
+                        originX += 1;
+                        originY += 3;
+
+                    }else {
+                        originX += 1;
+                        originY += 2;
+                    }
+                }
+                case 4 -> {
+                    rotation = 1;
+                    originX -= 2;
+                    originY += 2;
+                }
+                case 5 -> {
+                    rotation = 2;
+                    if (originX % 2 == 0){
+                        originX -= 3;
+                    }else {
+                        originX -= 3;
+                        originY -= 1;
+                    }
+                }
+            }
+            Hex temHex1 = new Hex(hexes[0].getX(), hexes[0].getY(),hexes[0].getType());
+            hexes[0] = hexes[3];
+            hexes[3] = temHex1;
+            Hex temHex2 = new Hex(hexes[1].getX(), hexes[1].getY(),hexes[1].getType());
+            hexes[1] = hexes[2];
+            hexes[2] = temHex2;
+        }
     }
 
     /**
