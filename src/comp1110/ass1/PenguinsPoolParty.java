@@ -240,7 +240,8 @@ public class PenguinsPoolParty {
      */
     public boolean isSolution() {
         // FIXME: Task 6
-        return false;
+        return iceBlocks[0].isOnBoard() && iceBlocks[1].isOnBoard() &&
+                iceBlocks[2].isOnBoard() && iceBlocks[3].isOnBoard();
     }
 
     /**
@@ -266,7 +267,21 @@ public class PenguinsPoolParty {
      */
     public boolean isIcePlacementValid(Ice ice) {
         // FIXME: Task 7
-        return false;
+//        boolean flag = true;
+        for (int i=0; i<4; i++){
+            Hex iceHex = ice.getHexes()[i];
+            if (iceHex.getX()<0 || iceHex.getX()>4 || iceHex.getY()<0 || iceHex.getY()>3){
+                return false;
+            }
+        }
+        for (int i=0; i<4; i++){
+            Hex iceHex = ice.getHexes()[i];
+            Hex broadHex = getHex(iceHex.getX(), iceHex.getY());
+            if (broadHex.getType() == HexType.ICE || broadHex.getType() == HexType.PENGUIN){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -289,6 +304,11 @@ public class PenguinsPoolParty {
      */
     public void placeIceBlock(Ice ice) {
         // FIXME: Task 8a
+        for (int i=0; i<4; i++){
+            Hex iceHex = ice.getHexes()[i];
+            setHex(iceHex.getX(), iceHex.getY(), iceHex.getType());
+        }
+        ice.setOnBoard(true);
     }
 
     /**
@@ -313,6 +333,11 @@ public class PenguinsPoolParty {
      */
     public void removeIceBlock(Ice ice) {
         // FIXME: Task 8b
+        for (int i=0; i<4; i++){
+            Hex iceHex = ice.getHexes()[i];
+            setHex(iceHex.getX(), iceHex.getY(), HexType.EMPTY);
+        }
+        ice.setOnBoard(false);
     }
 
     /**

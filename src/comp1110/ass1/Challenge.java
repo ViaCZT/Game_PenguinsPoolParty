@@ -1,5 +1,7 @@
 package comp1110.ass1;
 
+import java.util.Random;
+
 public class Challenge {
 
     // The problem number of the challenge in the game booklet
@@ -87,6 +89,7 @@ public class Challenge {
      */
     public Challenge(int problemNumber, String initialState) {
         assert problemNumber >= 1 && problemNumber <= 60;
+        //断言。assert关键字用于判断某一条件是否达成，如果达成不进行任何操作，如没有达成会抛出异常
         this.initialState = initialState;
         this.problemNumber = problemNumber;
     }
@@ -113,7 +116,18 @@ public class Challenge {
     public static Challenge newChallenge(int difficulty) {
         assert difficulty >= 0 && difficulty <= 3;
         // FIXME: Task 5
-        return CHALLENGES[0];
+        Random r = new Random();
+        int i;
+        if (difficulty == 0){
+            i = r.nextInt(16); //[0,16)
+        } else if (difficulty == 1) {
+            i = 16 + r.nextInt(16);
+        } else if (difficulty == 2) {
+            i = 32 + r.nextInt(16);
+        }else {
+            i = 48 + r.nextInt(12);
+        }
+        return CHALLENGES[i];
     }
 
 }
