@@ -1,5 +1,8 @@
 package comp1110.ass1;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PenguinsPoolParty {
 
     // The game board
@@ -267,7 +270,6 @@ public class PenguinsPoolParty {
      */
     public boolean isIcePlacementValid(Ice ice) {
         // FIXME: Task 7
-//        boolean flag = true;
         for (int i=0; i<4; i++){
             Hex iceHex = ice.getHexes()[i];
             if (iceHex.getX()<0 || iceHex.getX()>4 || iceHex.getY()<0 || iceHex.getY()>3){
@@ -363,7 +365,62 @@ public class PenguinsPoolParty {
      */
     public String[] getAllValidPlacements() {
         // FIXME: Task 10
-        return new String[0];
+//      1.for each一般用在遍历数组和集合，好处是不必考虑指定下标值。
+//      2.for each的语法语句格式：
+//        for (元素类型type  元素变量x : 遍历对象obj) {
+//            引用x的java语句;　　
+//        }
+//        for (Ice i : iceBlocks) {
+//            System.out.println(i);
+//        }
+        ArrayList<String> resulist = new ArrayList<>();
+        for (Ice ice : iceBlocks){
+            if (!ice.isOnBoard()){
+                for (int x = 0; x < BOARD_WIDTH; x++){
+                    for (int y = 0; y < BOARD_HEIGHT; y++){
+                        //遍历板上的Hex
+                        if (getHex(x,y).getType() == HexType.EMPTY){
+                            ice.translate(getHex(x,y));
+                            //因为冰块C是对称的，所以只能转3次
+                            if (ice.getId()=='C'){
+                                for (int i=0; i<3; i++){
+                                    if (isIcePlacementValid(ice)){ //ice的四个hex全都在板上
+                                        resulist.add(ice.toString());
+                                        ice.rotate60Degrees();
+                                    }else {
+                                        ice.rotate60Degrees();
+                                    }
+                                }
+                            }else {
+                                for (int i=0; i<6; i++){
+                                    if (isIcePlacementValid(ice)){ //ice的四个hex全都在板上
+                                        resulist.add(ice.toString());
+                                        ice.rotate60Degrees();
+                                    }else {
+                                        ice.rotate60Degrees();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+//        System.out.println(resulist);
+        String[] resulString = resulist.toArray(new String[0]);
+        /**
+         * 语法：arraylist.toArray(T[] arr)  T指数组的类型
+         * String长度可以是0，因为ArrayList的toArray方法定义的是泛型（参数化类型），
+         *      即所操作的数据类型被指定为一个参数
+         * 等价于
+         * String[] resulString = resulist.toArray(new String[resulist.size()]);
+         * 等价于以下2句
+         * String[] resulString = new String[resulist.size()];
+         * resulist.toArray(resulString);
+         * 下面这句是错的，因为如果不指定数组的数据类型，默认是object类型，而object不能强制转换成其他类型
+         * String[] resulString = (String[]) resulist.toArray();
+         */
+        return resulString;
     }
 
     /**
