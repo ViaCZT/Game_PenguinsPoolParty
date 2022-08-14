@@ -421,7 +421,15 @@ public class PenguinsPoolParty {
          * String[] resulString = (String[]) resulist.toArray();
          */
         return resulString;
+//        return new String[0];
     }
+    /**
+     * [A212, A321, A414, D212, D430] or valid placements [A212, A321, A414, D212, D430]
+     * [A203, A304, A420, C420, C430, D102, D212, D303, D320, D415, D430] or valid placements
+     * [A203, A304, A420, C420, C303, C430, C313, D102, D212, D303, D320, D415, D430]
+     * [B331] or valid placements [B331]
+     * [A121, A210, A225] or valid placements [A121, A210, A225]
+     */
 
     /**
      * Find the solution to this game.
@@ -444,7 +452,79 @@ public class PenguinsPoolParty {
      */
     public String findSolution() {
         // FIXME: Task 11
+//        getAllValidPlacements()会改变ABCD的位置，变成遍历的最后一个值（A430等）
+//        查看getAllValidPlacements()的结构
+//        String[] ss = getAllValidPlacements();
+//        System.out.println(ss[0]+ss[1]+ss[2]+ss[3]); //A022A121A122A123
+//        System.out.println(ss[4]+ss[5]+ss[6]+ss[7]); //A132A203A210A212
+        ArrayList<String> AList = new ArrayList<>();
+        ArrayList<String> BList = new ArrayList<>();
+        ArrayList<String> CList = new ArrayList<>();
+        ArrayList<String> DList = new ArrayList<>();
+        for (String s : getAllValidPlacements()){
+            if (s.charAt(0) == 'A'){
+                AList.add(s);
+            } else if (s.charAt(0) == 'B') {
+                BList.add(s);
+            } else if (s.charAt(0) == 'C') {
+                CList.add(s);
+            }else {
+                DList.add(s);
+            }
+        }
+//        System.out.println(AList.get(0)+BList.get(0));
+//        System.out.println(AList); //[A022, A121, A122, A123, A132, A203, A210, A212, A213, A214, A221, A222, A225, A230, A231, A304, A314, A321, A325, A330, A331, A404, A405, A410, A414, A415, A420, A425, A430]
+//        System.out.println(DList); //[D022, D031, D102, D121, D122, D131, D202, D203, D211, D212, D213, D214, D221, D222, D230, D231, D235, D303, D313, D314, D320, D324, D330, D335, D404, D414, D415, D420, D425, D430, D435]
+        for (String a : AList) {
+            placeIceBlock(applyPlacement(a));
+            int solutionB = 0;
+            for (String b : BList) {
+                if (isIcePlacementValid(applyPlacement(b))) {
+                    solutionB += 1;
+                    placeIceBlock(applyPlacement(b));
+                    int solutionC = 0;
+                    for (String c : CList) {
+                        if (isIcePlacementValid(applyPlacement(c))) {
+                            solutionC += 1;
+                            placeIceBlock(applyPlacement(c));
+//                            int solutionD = 0;
+                            for (String d : DList) {
+                                if (isIcePlacementValid(applyPlacement(d))) {
+//                                    solutionD += 1;
+                                    placeIceBlock(applyPlacement(d));
+                                    return getSolutionString();
+                                }
+                                //有可能中间有和list的一样的位置
+//                                else if (d == DList.get(DList.size() - 1)) {
+//                                    removeIceBlock(applyPlacement(c));
+//                                }
+                            }
+//                            System.out.println("完成d循环");
+//                            if (solutionD==0){ //d没有放进去
+//                                System.out.println("d没放进去");
+                            //可以不用solutionD判断，因为如果d放进去了，就会执行return
+                            //执行到了下面的语句，说明没有执行到return，也就是说d没成功被放进去
+                                solutionC -= 1;
+                                removeIceBlock(applyPlacement(c));
+//                            }
+                        }
+                    }
+//                    System.out.println("完成c循环");
+                    if (solutionC==0){ //c没有放进去
+//                        System.out.println("c没放进去");
+                        solutionB -= 1;
+                        removeIceBlock(applyPlacement(b));
+                    }
+                }
+            }
+//            System.out.println("完成b循环");
+            if (solutionB==0){ //b没有放进去
+//                System.out.println("b没放进去");
+//                solutionA -= 1; //a不可能放不进去
+                removeIceBlock(applyPlacement(a));
+            }
+        }
+//        System.out.println("完成a循环");
         return "";
     }
-
 }
